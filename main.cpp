@@ -4,12 +4,10 @@
 #include "ai.h"
 
 int main(int, char**) {
-    std::cout << "Hello, world!\n";
-
     SmallBoard board = SmallBoard();
 
-    std::shared_ptr<Game> game = std::shared_ptr<Game>(new Game());
-    AI ai = AI(game, X);
+    std::shared_ptr<Game> game = std::make_shared<Game>();
+    AI ai(game, X);
 
     CoordPair aiMove = ai.getAIMove();
     game->move(aiMove);

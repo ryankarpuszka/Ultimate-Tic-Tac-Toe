@@ -135,76 +135,54 @@ std::vector<CoordPair> Game::getMoves() const
 }
 
 template<class Cell>
+CellState checkLine(const BoardArray<Cell>& board, std::function<CellState (Cell)> getCellState, int row, int col, int incRow, int incCol)
+{
+    CellState start = getCellState(board[row][col]);
+    for (int i = 0; i < 2; ++i)
+    {
+        row += incRow;
+        col += incCol;
+        if (getCellState(board[row][col]) != start)
+        {
+            return None;
+        }
+    }
+    return start;
+}
+
+template<class Cell>
 CellState winner(const BoardArray<Cell>& board, std::function<CellState (Cell)> getCellState)
 {
     //Check rows
     for (int i = 0; i < 3; ++i)
     {
-        bool xWin = true;
-        bool oWin = true;
-
-        for (int j = 0; j < 3; ++j)
+        CellState rowState = checkLine(board, getCellState, i, 0, 0, 1);
+        if (rowState != None)
         {
-            if (getCellState(board[i][j]) != X)
-            {
-                xWin = false;
-            }
-            if (getCellState(board[i][j]) != O) {
-                oWin = false;
-            }
-        }
-
-        if (xWin)
-        {
-            return X;
-        }
-        else if (oWin)
-        {
-            return O;
+            return rowState;
         }
     }
 
     //Check cols
     for (int i = 0; i < 3; ++i)
     {
-        bool xWin = true;
-        bool oWin = true;
-
-        for (int j = 0; j < 3; ++j)
+        CellState colState = checkLine(board, getCellState, 0, i, 1, 0);
+        if (colState != None)
         {
-            if (getCellState(board[j][i]) != X)
-            {
-                xWin = false;
-            }
-            if (getCellState(board[j][i]) != O) {
-                oWin = false;
-            }
-        }
-
-        if (xWin)
-        {
-            return X;
-        }
-        else if (oWin)
-        {
-            return O;
+            return colState;
         }
     }
 
     //Check diagonals
-    CellState center = getCellState(board[1][1]);
-
-    if (center != None)
+    CellState diagState = checkLine(board, getCellState, 0, 0, 1, 1);
+    if (diagState != None)
     {
-        if (center == getCellState(board[0][0]) && center == getCellState(board[2][2]))
-        {
-            return center;
-        }
-
-        if (center == getCellState(board[0][2]) && center == getCellState(board[2][0]))
-        {
-            return center;
-        }
+        return diagState;
+    }
+    CellState diagState2 = checkLine(board, getCellState, 0, 2, 1, -1);
+    if (diagState2 != None)
+    {
+        return diagState2;
     }
 
     return None;

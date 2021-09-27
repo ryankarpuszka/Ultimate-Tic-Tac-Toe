@@ -18,6 +18,36 @@ TEST(GameTest, SmallBoardTest)
     ASSERT_FALSE(board.move(true, {0, 1}));
 }
 
+TEST(GameTest, SmallBoardWinnerTest)
+{
+    SmallBoard board = SmallBoard();
+
+    ASSERT_TRUE(board.move(true, {0, 1}));
+    ASSERT_TRUE(board.move(true, {1, 1}));
+    ASSERT_TRUE(board.move(true, {2, 1}));
+
+    ASSERT_EQ(board.getWinner(), O);
+    ASSERT_TRUE(board.isDone());
+
+    board = SmallBoard();
+
+    ASSERT_TRUE(board.move(true, {0, 0}));
+    ASSERT_TRUE(board.move(true, {1, 1}));
+    ASSERT_TRUE(board.move(true, {2, 2}));
+
+    ASSERT_EQ(board.getWinner(), O);
+    ASSERT_TRUE(board.isDone());
+
+    board = SmallBoard();
+
+    ASSERT_TRUE(board.move(true, {0, 2}));
+    ASSERT_TRUE(board.move(true, {1, 1}));
+    ASSERT_TRUE(board.move(true, {2, 0}));
+
+    ASSERT_EQ(board.getWinner(), O);
+    ASSERT_TRUE(board.isDone());
+}
+
 TEST(GameTest, SmallBoardFull)
 {
     SmallBoard board = SmallBoard();
