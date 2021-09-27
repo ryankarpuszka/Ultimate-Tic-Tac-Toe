@@ -16,11 +16,11 @@ class TreeNode
 {
 private:
     /// Number of times this node has been visited
-    int visits;
+    int visits = 0;
     /**The sum of the rewards from all times this node has been visited. Positive indicates a win for the AI.
      * Negative indicates a win for the opponent.
      */
-    int rewardSum;
+    int rewardSum = 0;
     /// The current outcome of the game at this node
     CellState winner;
 
@@ -29,7 +29,7 @@ private:
     std::vector<CoordPair> unexpandedMoves;
 
 public:
-    TreeNode(std::weak_ptr<TreeNode> parent, CellState winner, std::vector<CoordPair> unexpandedMoves);
+    TreeNode(std::weak_ptr<TreeNode> parent, CellState winner, std::vector<CoordPair> unexpandedMoves) : parent(parent), winner(winner), unexpandedMoves(unexpandedMoves) {}
     
     /// Returns the child from the corresponding move
     std::shared_ptr<TreeNode> getChild(const CoordPair& move) const;

@@ -5,15 +5,6 @@
 #include <memory>
 #include <vector>
 
-TreeNode::TreeNode(std::weak_ptr<TreeNode> parent,CellState winner, std::vector<CoordPair> unexpandedMoves)
-{
-    visits = 0;
-    rewardSum = 0;
-    this->parent = parent;
-    this->winner = winner;
-    this->unexpandedMoves = unexpandedMoves;
-}
-
 std::shared_ptr<TreeNode> TreeNode::getChild(const CoordPair& move) const
 {
     return children.at(move);

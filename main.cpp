@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <string>
 #include "game.h"
 #include "ai.h"
 
@@ -15,6 +16,11 @@ int main(int, char**) {
     
     while (game->getWinner() == None)
     {
+
+        if (game->getMoves().empty())
+        {
+            break;
+        }
         
         game->print();
 
@@ -42,10 +48,28 @@ int main(int, char**) {
         CoordPair playerMove = {{outRow, outCol}, {inRow, inCol}};
         if (game->move(playerMove))
         {
+            if (game->getMoves().empty())
+            {
+                break;
+            }
+
             ai.updateTree(playerMove);
             CoordPair aiMove = ai.getAIMove();
             game->move(aiMove);
             ai.updateTree(aiMove);
         }
+    }
+
+    game->print();
+
+    CellState winner = game->getWinner();
+    if (winner == None)
+    {
+        std::cout << "Tie Game" << std::endl;
+    }
+    else
+    {
+        std::string winLetter = winner == X ? "X" : "O";
+        std::cout << "The winner is " + winLetter << std::endl;
     }
 }
