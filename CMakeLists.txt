@@ -19,11 +19,6 @@ add_library(game game.h game.cpp  ai.h ai.cpp)
 add_executable(uttt main.cpp)
 target_link_libraries(uttt game)
 
-find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
-add_executable(uttt-gui gui.cpp gui.h)
-target_link_libraries(uttt-gui sfml-graphics sfml-audio game)
-configure_file(trim.ttf trim.ttf COPYONLY)
-
 add_executable(game_test game_test.cpp)
 target_link_libraries(
     game_test
